@@ -1,0 +1,57 @@
+<div class="todo-container">
+    <div class="todo-header">
+        <h3>⭐ My ToDo App</h3>
+        <p>Stay organized. Stay productive.</p>
+    </div>
+
+    <!-- Input -->
+    <div class="input-group">
+        <input type="text" [(ngModel)]="taskName" name="taskName" class="form-control"
+            placeholder="Enter new task..." />
+        <button (click)="addTask()" class="btn btn-add" type="button">Add</button>
+        <button (click)="textChange()" style="background-color: chartreuse;" class="btn btn-add btn-success"
+            type="button">Serch</button>
+    </div>
+
+    <!-- Task Section -->
+    <div class="task-section">
+        <div class="task-header">
+            <h6>Tasks</h6>
+            <select class="form-select form-select-sm" (change)="onStatusFilter($event)">
+                <option>All</option>
+                <option>Completed</option>
+                <option>On Hold</option>
+                <option>Pending</option>
+                <option>New</option>
+            </select>
+        </div>
+
+        <!-- Task Items -->
+        <div *ngIf="isFilterRecord(); else noTask">
+            <div *ngFor="let item of filterTaskList()">
+                <div class="task-item">
+                    <div class="task-left">
+                        <select class="form-select form-select-sm" (change)="changeStatus($event,item)">
+                            <option>All</option>
+                            <option>Completed</option>
+                            <option>On Hold</option>
+                            <option>Pending</option>
+                            <option>New</option>
+                        </select>
+                        <span class="task-label">{{ item.taskName }}</span>
+                    </div>
+                    <span class="badge-status badge-completed">{{ item.taskStatus }}</span>
+                    <button class="btn btn-delete" (click)="deleteTask(item)">Delete</button>
+                </div>
+            </div>
+        </div>
+
+        <ng-template #noTask>
+            <div class="task-item">
+                <div class="task-left">
+                    <span class="task-label">No task found with filter</span>
+                </div>
+            </div>
+        </ng-template>
+    </div>
+</div>
